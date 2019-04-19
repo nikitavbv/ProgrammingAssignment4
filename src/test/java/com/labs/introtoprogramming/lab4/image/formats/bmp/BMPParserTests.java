@@ -1,11 +1,9 @@
 package com.labs.introtoprogramming.lab4.image.formats.bmp;
 
-import org.junit.Test;
-import org.junit.Assert;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class BMPParserTests {
   private static final List<byte[]> DUMB_BYTES_TO_SUM = Arrays.asList(
@@ -31,10 +29,17 @@ public class BMPParserTests {
   );
 
   private static final List<byte[]> DUMB_IMAGE_HEADER = Arrays.asList(
-          new byte[]{40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0, -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          new byte[]{40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          },
           new byte[0],
-          new byte[]{0, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0, -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          new byte[]{0, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 25, 0, 0, 0, 0, 0, -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+          new byte[]{
+                  0, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0,0, 0, 0, 0,
+                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          },
+          new byte[]{0, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 25, 0, 0, 0, 0, 0,
+                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          }
   );
 
   @Test
@@ -69,14 +74,14 @@ public class BMPParserTests {
   public void sumUpBytesLessFourBytesTest() {
     byte[] arr = DUMB_BYTES_TO_SUM.get(4);
     int sum = BMPParser.sumUpBytes(arr, 0, arr.length);
-    Assert.assertEquals( 257, sum);
+    Assert.assertEquals(257, sum);
   }
 
   @Test
   public void sumUpBytesBiggerFourBytesTest() {
     byte[] arr = DUMB_BYTES_TO_SUM.get(5);
     int sum = BMPParser.sumUpBytes(arr, 0, arr.length);
-    Assert.assertEquals( 257, sum);
+    Assert.assertEquals(257, sum);
   }
 
   @Test
@@ -97,7 +102,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(1));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -105,7 +110,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(2));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -113,7 +118,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(3));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -121,7 +126,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(4));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -129,7 +134,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(5));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -137,7 +142,7 @@ public class BMPParserTests {
     try {
       BMPParser.parseHeader(DUMB_FILE_HEADER.get(6));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -165,7 +170,7 @@ public class BMPParserTests {
     try {
       BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(1));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -173,7 +178,7 @@ public class BMPParserTests {
     try {
       BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(2));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 
   @Test
@@ -181,6 +186,6 @@ public class BMPParserTests {
     try {
       BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(3));
       Assert.fail();
-    } catch (Exception e) {}
+    } catch (Exception e) { }
   }
 }
