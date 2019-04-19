@@ -9,4 +9,12 @@ public class RGBImage {
   private byte[][] green;
   private byte[][] blue;
 
+  public RGBImage(int width, int height, byte[][] red, byte[][] green, byte[][] blue) {
+    this.width = width;
+    this.height = height;
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+  }
+
 }

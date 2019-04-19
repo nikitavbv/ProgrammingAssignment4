@@ -6,7 +6,7 @@ public class RGBImageTests {
 
   @Test
   public void testInstantiation() {
-    new RGBImage();
+    new RGBImage(0, 0, null, null, null);
   }
 
 }
