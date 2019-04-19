@@ -7,7 +7,7 @@ public class SimpleScaleTests {
 
   @Test
   public void testScale() {
-    RGBImage input = new RGBImage();
+    RGBImage input = new RGBImage(0, 0, null, null, null);
     SimpleScale scale = new SimpleScale(2);
     RGBImage output = scale.applyTo(input);
   }

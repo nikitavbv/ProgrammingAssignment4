@@ -12,6 +12,6 @@ public class SimpleScale implements RGBImageTransformation {
 
   public RGBImage applyTo(RGBImage image) {
     // TODO: implement this
-    return new RGBImage();
+    return new RGBImage(0, 0, null, null, null);
   }
 }
