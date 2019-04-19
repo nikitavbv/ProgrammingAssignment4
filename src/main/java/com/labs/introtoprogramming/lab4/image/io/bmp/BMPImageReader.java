@@ -11,11 +11,11 @@ import java.io.InputStream;
 public class BMPImageReader implements ImageReader {
 
   private final InputStream in;
-  private BMPImageHeader header;
-  private int offset;
-  private byte[][] red;
-  private byte[][] green;
-  private byte[][] blue;
+  BMPImageHeader header;
+  int offset;
+  byte[][] red;
+  byte[][] green;
+  byte[][] blue;
 
   public BMPImageReader(InputStream in) {
     this.in = in;
@@ -39,7 +39,7 @@ public class BMPImageReader implements ImageReader {
     return image;
   }
 
-  private void loadHeaderInfo() throws IOException {
+  void loadHeaderInfo() throws IOException {
     try {
       byte[] header = new byte[14];
       int byteRead = in.read(header);
@@ -52,7 +52,7 @@ public class BMPImageReader implements ImageReader {
     }
   }
 
-  private void loadImageHeaderInfo() throws IOException {
+  void loadImageHeaderInfo() throws IOException {
     try {
       byte[] byteNumberPerSizeUnit = new byte[4];
       in.mark(4);
@@ -66,7 +66,7 @@ public class BMPImageReader implements ImageReader {
     }
   }
 
-  private void loadPixelData() throws IOException {
+  void loadPixelData() throws IOException {
     red = new byte[header.height][header.width];
     green = new byte[header.height][header.width];
     blue = new byte[header.height][header.width];
@@ -85,7 +85,7 @@ public class BMPImageReader implements ImageReader {
     }
   }
 
-  private void sortRows() {
+  void sortRows() {
     if (header.height < 0) {
       return;
     }
@@ -96,7 +96,8 @@ public class BMPImageReader implements ImageReader {
     }
   }
 
-  private void swapRow(byte[][] color, int i, int j) {
+  void swapRow(byte[][] color, int i, int j) {
+    if (color.length == 0) return;
     byte[] temp = color[i];
     color[i] = color[j];
     color[j] = temp;
