@@ -97,52 +97,34 @@ public class BMPParserTests {
     Assert.assertEquals(54, res);
   }
 
-  @Test
-  public void parseHeaderSmallSizeTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(1));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderSmallSizeTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(1));
   }
 
-  @Test
-  public void parseHeaderNoBTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(2));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderNoBTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(2));
   }
 
-  @Test
-  public void parseHeaderNoMTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(3));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderNoMTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(3));
   }
 
-  @Test
-  public void parseHeaderEmptyArrayTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(4));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderEmptyArrayTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(4));
   }
 
-  @Test
-  public void parseHeaderNoOffsetTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(5));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderNoOffsetTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(5));
   }
 
-  @Test
-  public void parseHeaderTooLargeOffsetTest() {
-    try {
-      BMPParser.parseHeader(DUMB_FILE_HEADER.get(6));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseHeaderTooLargeOffsetTest() throws Exception {
+    BMPParser.parseHeader(DUMB_FILE_HEADER.get(6));
   }
 
   @Test
@@ -165,27 +147,18 @@ public class BMPParserTests {
     Assert.assertEquals(3, header.bytesPerPixel);
   }
 
-  @Test
-  public void parseImageHeaderEmptyArrayTest() {
-    try {
-      BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(1));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseImageHeaderEmptyArrayTest() throws Exception {
+    BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(1));
   }
 
-  @Test
-  public void parseImageHeaderWrongSizeArrayTest() {
-    try {
-      BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(2));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseImageHeaderWrongSizeArrayTest() throws Exception {
+    BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(2));
   }
 
-  @Test
-  public void parseImageHeaderWrongBytesForPixelTest() {
-    try {
-      BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(3));
-      Assert.fail();
-    } catch (Exception e) { }
+  @Test(expected = Exception.class)
+  public void parseImageHeaderWrongBytesForPixelTest() throws Exception {
+    BMPImageHeader header = BMPParser.parseImageHeader(DUMB_IMAGE_HEADER.get(3));
   }
 }
