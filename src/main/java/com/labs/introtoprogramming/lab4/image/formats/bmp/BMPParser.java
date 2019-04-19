@@ -43,7 +43,7 @@ public class BMPParser {
   public static int sumUpBytes(byte[] headerInfo, int start, int end) {
     byte[] copy = Arrays.copyOfRange(headerInfo, start, end);
     int len = copy.length;
-    if (len < 4 || len > 4 ) {
+    if (len < 4 || len > 4) {
       copy = Arrays.copyOfRange(copy, 0, 4);
       for (int i = len; i < 4; i++) {
         copy[i] = 0;

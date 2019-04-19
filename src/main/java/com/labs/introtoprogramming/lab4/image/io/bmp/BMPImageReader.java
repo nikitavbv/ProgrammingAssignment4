@@ -13,9 +13,9 @@ public class BMPImageReader implements ImageReader {
   private final InputStream in;
   private BMPImageHeader header;
   private int offset;
-  private byte r[][];
-  private byte g[][];
-  private byte b[][];
+  private byte[][] red;
+  private byte[][] green;
+  private byte[][] blue;
 
   public BMPImageReader(InputStream in) {
     this.in = in;
@@ -31,7 +31,7 @@ public class BMPImageReader implements ImageReader {
       in.skip(offset);
       loadPixelData();
       sortRows();
-      image = new RGBImage(header.width, header.height, r, g, b);
+      image = new RGBImage(header.width, header.height, red, green, blue);
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println("Failed to load BMP image");
@@ -55,11 +55,10 @@ public class BMPImageReader implements ImageReader {
   private void loadImageHeaderInfo() throws IOException {
     try {
       byte[] byteNumberPerSizeUnit = new byte[4];
-      byte[] imageHeader;
       in.mark(4);
       in.read(byteNumberPerSizeUnit);
       in.reset();
-      imageHeader = new byte[BMPParser.sumUpBytes(byteNumberPerSizeUnit, 0, 4)];
+      byte[] imageHeader = new byte[BMPParser.sumUpBytes(byteNumberPerSizeUnit, 0, 4)];
       in.read(imageHeader);
       header = BMPParser.parseImageHeader(imageHeader);
     } catch (Exception e) {
@@ -68,9 +67,9 @@ public class BMPImageReader implements ImageReader {
   }
 
   private void loadPixelData() throws IOException {
-    r = new byte[header.height][header.width];
-    g = new byte[header.height][header.width];
-    b = new byte[header.height][header.width];
+    red = new byte[header.height][header.width];
+    green = new byte[header.height][header.width];
+    blue = new byte[header.height][header.width];
     int bytesInRow = header.bytesPerPixel * header.width;
     int padding = (4 - bytesInRow % 4) % 4;
     byte[] pixel = new byte[header.bytesPerPixel];
@@ -79,19 +78,21 @@ public class BMPImageReader implements ImageReader {
       in.skip(padding);
       for (int j = 0; j < header.width; j++) {
         in.read(pixel);
-        r[i][j] = pixel[0];
-        g[i][j] = pixel[1];
-        b[i][j] = pixel[2];
+        red[i][j] = pixel[0];
+        green[i][j] = pixel[1];
+        blue[i][j] = pixel[2];
       }
     }
   }
 
   private void sortRows() {
-    if (header.height < 0) return;
+    if (header.height < 0) {
+      return;
+    }
     for (int i = 0, j = header.height - 1; i <= j; i++, j--) {
-      swapRow(r, i, j);
-      swapRow(g, i, j);
-      swapRow(b, i, j);
+      swapRow(red, i, j);
+      swapRow(green, i, j);
+      swapRow(blue, i, j);
     }
   }
 
