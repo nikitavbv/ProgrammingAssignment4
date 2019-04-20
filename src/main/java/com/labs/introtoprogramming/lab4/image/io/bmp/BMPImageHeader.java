@@ -1,25 +1,25 @@
 package com.labs.introtoprogramming.lab4.image.io.bmp;
 
-public class BMPImageHeader {
+class BMPImageHeader {
   private int width;
   private int height;
   private int bytesPerPixel;
 
-  public BMPImageHeader(int width, int height, int bytesPerPixel) {
+  BMPImageHeader(int width, int height, int bytesPerPixel) {
     this.width = width;
     this.height = height;
     this.bytesPerPixel = bytesPerPixel;
   }
 
-  public int width() {
+  int width() {
     return width;
   }
 
-  public int height() {
+  int height() {
     return height;
   }
 
-  public int bytesPerPixel() {
+  int bytesPerPixel() {
     return bytesPerPixel;
   }
 }

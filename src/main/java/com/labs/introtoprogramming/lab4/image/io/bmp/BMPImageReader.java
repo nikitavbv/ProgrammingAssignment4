@@ -43,7 +43,7 @@ public class BMPImageReader implements ImageReader {
       }
       offset = parser.parseHeader(header);
     } catch (Exception e) {
-      throw new ImageLoadException("Cannot read file header info");
+      throw new ImageLoadException("Cannot read file header info", e);
     }
   }
 
@@ -60,7 +60,7 @@ public class BMPImageReader implements ImageReader {
       height = header.height();
       bytesPerPixel = header.bytesPerPixel();
     } catch (Exception e) {
-      throw new ImageLoadException("Cannot read image header info");
+      throw new ImageLoadException("Cannot read image header info", e);
     }
   }
 
