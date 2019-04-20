@@ -4,18 +4,18 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import com.labs.introtoprogramming.lab4.image.formats.bmp.BMPImageHeader;
+import com.labs.introtoprogramming.lab4.image.RGBImage;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class BMPImageReaderTests {
-  private static final List<byte[]> DUMB_FILE_HEADER = Arrays.asList(
+  private static final List<byte[]> DUMMY_FILE_HEADER = Arrays.asList(
           new byte[]{66, 77, -4, 49, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0},
           new byte[0],
           new byte[14]
   );
 
-  private static final List<byte[]> DUMB_IMAGE_HEADER = Arrays.asList(
+  private static final List<byte[]> DUMMY_IMAGE_HEADER = Arrays.asList(
           new byte[]{40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
                   -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
           },
@@ -23,7 +23,7 @@ public class BMPImageReaderTests {
           new byte[40]
   );
 
-  private static final List<byte[]> DUMB_PIXEL_DATA = Arrays.asList(
+  private static final List<byte[]> DUMMY_PIXEL_DATA = Arrays.asList(
           new byte[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
                   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
           },
@@ -32,7 +32,7 @@ public class BMPImageReaderTests {
           }
   );
 
-  private static final List<byte[][]> DUMP_MATRIX_TO_SWAP_ROWS = Arrays.asList(
+  private static final List<byte[][]> DUMMY_MATRIX_TO_SWAP_ROWS = Arrays.asList(
           new byte[][]{
                   {1},
                   {2},
@@ -41,19 +41,30 @@ public class BMPImageReaderTests {
           new byte[][] {}
   );
 
-  private static final List<byte[][]> DUMP_MATRIX_TO_SORT = Arrays.asList(
+  private static final List<byte[][]> DUMMY_MATRIX_TO_SORT = Arrays.asList(
           new byte[][]{
                   {1},
                   {2},
                   {3}
           },
           new byte[][] {}
+  );
+
+  private static final List<byte[]> DUMMY_DATA_TO_READ = Arrays.asList(
+          new byte[]{66, 77, -4, 49, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
+                  40, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+
+          },
+          new byte[] {}
   );
 
   @Test
   public void loadHeaderInfoTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_FILE_HEADER.get(0)));
+            new ByteArrayInputStream(DUMMY_FILE_HEADER.get(0)));
     reader.loadHeaderInfo();
     Assert.assertEquals(54, reader.offset);
   }
@@ -61,14 +72,14 @@ public class BMPImageReaderTests {
   @Test(expected = Exception.class)
   public void loadHeaderInfoNoStreamDataTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_FILE_HEADER.get(1)));
+            new ByteArrayInputStream(DUMMY_FILE_HEADER.get(1)));
     reader.loadHeaderInfo();
   }
 
   @Test(expected = Exception.class)
   public void loadHeaderInfoEmptyStreamTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_FILE_HEADER.get(2)));
+            new ByteArrayInputStream(DUMMY_FILE_HEADER.get(2)));
     reader.loadHeaderInfo();
   }
 
@@ -76,36 +87,34 @@ public class BMPImageReaderTests {
   @Test
   public void loadImageHeaderInfoTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_IMAGE_HEADER.get(0)));
+            new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(0)));
     reader.loadImageHeaderInfo();
-    Assert.assertEquals(65, reader.header.width);
-    Assert.assertEquals(65, reader.header.height);
-    Assert.assertEquals(3, reader.header.bytesPerPixel);
+    Assert.assertEquals(65, reader.width);
+    Assert.assertEquals(65, reader.height);
+    Assert.assertEquals(3, reader.bytesPerPixel);
   }
 
   @Test(expected = Exception.class)
   public void loadImageHeaderInfoNoStreamDataTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_IMAGE_HEADER.get(1)));
+            new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(1)));
     reader.loadImageHeaderInfo();
   }
 
   @Test(expected = Exception.class)
   public void loadImageHeaderInfoEmptyStreamTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_IMAGE_HEADER.get(2)));
+            new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(2)));
     reader.loadImageHeaderInfo();
   }
 
   @Test
   public void loadPixelDataTest() throws Exception {
-    BMPImageHeader header = new BMPImageHeader();
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_PIXEL_DATA.get(0)));
-    header.width = 4;
-    header.height = 3;
-    header.bytesPerPixel = 3;
-    reader.header = header;
+            new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(0)));
+    reader.width = 4;
+    reader.height = 3;
+    reader.bytesPerPixel = 3;
     reader.loadPixelData();
     Assert.assertEquals(reader.red.length, 3);
     Assert.assertEquals(reader.red[0].length, 4);
@@ -114,13 +123,11 @@ public class BMPImageReaderTests {
 
   @Test
   public void loadPixelDataPaddingTest() throws Exception {
-    BMPImageHeader header = new BMPImageHeader();
     BMPImageReader reader = new BMPImageReader(
-            new ByteArrayInputStream(DUMB_PIXEL_DATA.get(1)));
-    header.width = 2;
-    header.height = 4;
-    header.bytesPerPixel = 3;
-    reader.header = header;
+            new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(1)));
+    reader.width = 2;
+    reader.height = 4;
+    reader.bytesPerPixel = 3;
     reader.loadPixelData();
     Assert.assertEquals(reader.red.length, 4);
     Assert.assertEquals(reader.red[0].length, 2);
@@ -129,7 +136,7 @@ public class BMPImageReaderTests {
 
   @Test
   public void swapRowTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SWAP_ROWS.get(0);
+    byte[][] matrix = DUMMY_MATRIX_TO_SWAP_ROWS.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.swapRow(matrix, 0, matrix.length - 1);
     Assert.assertArrayEquals(new byte[]{3}, matrix[0]);
@@ -138,7 +145,7 @@ public class BMPImageReaderTests {
 
   @Test
   public void swapSameRowTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SWAP_ROWS.get(0);
+    byte[][] matrix = DUMMY_MATRIX_TO_SWAP_ROWS.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.swapRow(matrix, 1, 1);
     Assert.assertArrayEquals(new byte[]{2}, matrix[1]);
@@ -146,20 +153,19 @@ public class BMPImageReaderTests {
 
   @Test
   public void swapRowEmptyMatrixTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SWAP_ROWS.get(1);
+    byte[][] matrix = DUMMY_MATRIX_TO_SWAP_ROWS.get(1);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.swapRow(matrix, 0, matrix.length - 1);
   }
 
   @Test
   public void sortRowsTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SORT.get(0);
+    byte[][] matrix = DUMMY_MATRIX_TO_SORT.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.red = copyMatrix(matrix);
     reader.green = copyMatrix(matrix);
     reader.blue = copyMatrix(matrix);
-    reader.header = new BMPImageHeader();
-    reader.header.height = 3;
+    reader.height = 3;
     reader.sortRows();
     Assert.assertArrayEquals(new byte[]{3}, reader.red[0]);
     Assert.assertArrayEquals(new byte[]{2}, reader.red[1]);
@@ -168,11 +174,10 @@ public class BMPImageReaderTests {
 
   @Test
   public void sortRowsNegativeHeightTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SORT.get(0);
+    byte[][] matrix = DUMMY_MATRIX_TO_SORT.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.red = reader.green = reader.blue = matrix;
-    reader.header = new BMPImageHeader();
-    reader.header.height = -3;
+    reader.height = -3;
     reader.sortRows();
     Assert.assertArrayEquals(new byte[]{1}, reader.red[0]);
     Assert.assertArrayEquals(new byte[]{2}, reader.red[1]);
@@ -181,12 +186,25 @@ public class BMPImageReaderTests {
 
   @Test
   public void sortRowsEmptyMatrixTest() {
-    byte[][] matrix = DUMP_MATRIX_TO_SORT.get(1);
+    byte[][] matrix = DUMMY_MATRIX_TO_SORT.get(1);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
     reader.red = reader.green = reader.blue = matrix;
-    reader.header = new BMPImageHeader();
-    reader.header.height = 1;
+    reader.height = 1;
     reader.sortRows();
+  }
+
+  @Test
+  public void readTest() throws Exception {
+    BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(0)));
+    RGBImage image = reader.read();
+    Assert.assertEquals(4, image.width());
+    Assert.assertEquals(3, image.height());
+  }
+
+  @Test(expected = Exception.class)
+  public void readEmptyStreamTest() throws Exception {
+    BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(1)));
+    RGBImage image = reader.read();
   }
 
   private static byte[][] copyMatrix(byte[][] matrix) {

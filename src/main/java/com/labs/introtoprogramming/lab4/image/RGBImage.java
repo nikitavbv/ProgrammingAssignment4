@@ -17,4 +17,11 @@ public class RGBImage {
     this.blue = blue;
   }
 
+  public int width() {
+    return width;
+  }
+
+  public int height() {
+    return height;
+  }
 }

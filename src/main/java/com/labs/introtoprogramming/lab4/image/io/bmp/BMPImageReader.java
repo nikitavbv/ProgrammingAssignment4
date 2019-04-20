@@ -1,8 +1,7 @@
 package com.labs.introtoprogramming.lab4.image.io.bmp;
 
 import com.labs.introtoprogramming.lab4.image.RGBImage;
-import com.labs.introtoprogramming.lab4.image.formats.bmp.BMPImageHeader;
-import com.labs.introtoprogramming.lab4.image.formats.bmp.BMPParser;
+import com.labs.introtoprogramming.lab4.image.io.ImageLoadException;
 import com.labs.introtoprogramming.lab4.image.io.ImageReader;
 
 import java.io.IOException;
@@ -11,7 +10,10 @@ import java.io.InputStream;
 public class BMPImageReader implements ImageReader {
 
   private final InputStream in;
-  BMPImageHeader header;
+  private BMPParser parser = new BMPParser();
+  int height;
+  int width;
+  int bytesPerPixel;
   int offset;
   byte[][] red;
   byte[][] green;
@@ -22,61 +24,56 @@ public class BMPImageReader implements ImageReader {
   }
 
   @Override
-  public RGBImage read() {
-    RGBImage image = null;
-    try {
-      loadHeaderInfo();
-      loadImageHeaderInfo();
-      in.reset();
-      in.skip(offset);
-      loadPixelData();
-      sortRows();
-      image = new RGBImage(header.width, header.height, red, green, blue);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.err.println("Failed to load BMP image");
-    }
-    return image;
+  public RGBImage read() throws IOException {
+    loadHeaderInfo();
+    loadImageHeaderInfo();
+    in.reset();
+    in.skip(offset);
+    loadPixelData();
+    sortRows();
+    return new RGBImage(width, height, red, green, blue);
   }
 
-  void loadHeaderInfo() throws IOException {
+  void loadHeaderInfo() {
     try {
       byte[] header = new byte[14];
       int byteRead = in.read(header);
       if (byteRead == -1) {
-        throw new IOException();
+        throw new ImageLoadException("Empty stream");
       }
-      offset = BMPParser.parseHeader(header);
+      offset = parser.parseHeader(header);
     } catch (Exception e) {
-      throw new IOException("Cannot read file header info");
+      throw new ImageLoadException("Cannot read file header info");
     }
   }
 
-  void loadImageHeaderInfo() throws IOException {
+  void loadImageHeaderInfo() {
     try {
       byte[] byteNumberPerSizeUnit = new byte[4];
       in.mark(4);
       in.read(byteNumberPerSizeUnit);
       in.reset();
-      byte[] imageHeader = new byte[BMPParser.sumUpBytes(byteNumberPerSizeUnit, 0, 4)];
+      byte[] imageHeader = new byte[parser.sumUpBytes(byteNumberPerSizeUnit, 0, 4)];
       in.read(imageHeader);
-      header = BMPParser.parseImageHeader(imageHeader);
+      BMPImageHeader header = parser.parseImageHeader(imageHeader);
+      width = header.width();
+      height = header.height();
+      bytesPerPixel = header.bytesPerPixel();
     } catch (Exception e) {
-      throw new IOException("Cannot read image header info");
+      throw new ImageLoadException("Cannot read image header info");
     }
   }
 
-  void loadPixelData() throws IOException {
-    red = new byte[header.height][header.width];
-    green = new byte[header.height][header.width];
-    blue = new byte[header.height][header.width];
-    int bytesInRow = header.bytesPerPixel * header.width;
+  void loadPixelData() throws ImageLoadException, IOException {
+    red = new byte[height][width];
+    green = new byte[height][width];
+    blue = new byte[height][width];
+    int bytesInRow = bytesPerPixel * width;
     int padding = (4 - bytesInRow % 4) % 4;
-    byte[] pixel = new byte[header.bytesPerPixel];
-    int height = Math.abs(header.height);
-    for (int i = 0; i < height; i++) {
+    byte[] pixel = new byte[bytesPerPixel];
+    for (int i = 0; i < Math.abs(height); i++) {
       in.skip(padding);
-      for (int j = 0; j < header.width; j++) {
+      for (int j = 0; j < width; j++) {
         in.read(pixel);
         red[i][j] = pixel[0];
         green[i][j] = pixel[1];
@@ -85,11 +82,14 @@ public class BMPImageReader implements ImageReader {
     }
   }
 
+  /**
+   * Change rows of matrix according to order of scan lines in file
+   */
   void sortRows() {
-    if (header.height < 0) {
+    if (height < 0) {
       return;
     }
-    for (int i = 0, j = header.height - 1; i <= j; i++, j--) {
+    for (int i = 0, j = height - 1; i <= j; i++, j--) {
       swapRow(red, i, j);
       swapRow(green, i, j);
       swapRow(blue, i, j);
