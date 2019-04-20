@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface ImageReader {
 
-  RGBImage read() throws IOException;
+  public RGBImage read() throws IOException;
 
 }

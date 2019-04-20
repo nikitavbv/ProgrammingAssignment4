@@ -1,31 +1,33 @@
 package com.labs.introtoprogramming.lab4.image.io.bmp;
 
+import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormat;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
 class BMPParser {
 
-  int parseHeader(byte[] headerInfo) throws UnsupportedFileFormat {
+  int parseHeader(byte[] headerInfo) throws UnsupportedDataFormat {
     if (headerInfo.length != 14) {
-      throw new UnsupportedFileFormat("File format is not a BMP");
+      throw new UnsupportedDataFormat("Data format is not a BMP");
     }
     if (headerInfo[0] != 0x42 || headerInfo[1] != 0x4D) {
-      throw new UnsupportedFileFormat("File format is not a BMP");
+      throw new UnsupportedDataFormat("Data format is not a BMP");
     }
 
     int size = sumUpBytes(headerInfo, 2, 6);
     int offset = sumUpBytes(headerInfo, 10, 14);
     if (offset < 54 || offset > size) {
-      throw new UnsupportedFileFormat("Invalid value for offset");
+      throw new UnsupportedDataFormat("Invalid value for offset");
     }
     return offset;
   }
 
-  BMPImageHeader parseImageHeader(byte[] headerInfo) throws UnsupportedFileFormat {
+  BMPImageHeader parseImageHeader(byte[] headerInfo) throws UnsupportedDataFormat {
     int headerSize = sumUpBytes(headerInfo, 0, 4);
     if (headerSize != headerInfo.length) {
-      throw new UnsupportedFileFormat("Incorrect image header");
+      throw new UnsupportedDataFormat("Incorrect image header");
     }
 
     int width = sumUpBytes(headerInfo, 4, 8);
@@ -33,7 +35,7 @@ class BMPParser {
     int bytesPerPixel = sumUpBytes(headerInfo, 14, 16);
 
     if (bytesPerPixel != 24) {
-      throw new UnsupportedFileFormat("Unsupported bits per pixel format");
+      throw new UnsupportedDataFormat("Unsupported bits per pixel format");
     }
     bytesPerPixel /= 8;
 
@@ -41,7 +43,7 @@ class BMPParser {
   }
 
   /**
-   * Get int value of 4 bytes in subarray of bytes in littleEndian byte order.
+   * Get int value of first 4 bytes in subarray of bytes in littleEndian byte order.
    * If subarray length is greater than 4 return value of first 4 byte.
    * If subarray length is less than 4 append 0 values to the end.
    *
