@@ -4,12 +4,15 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 import com.labs.introtoprogramming.lab4.image.RGBImage;
 import com.labs.introtoprogramming.lab4.image.io.ImageLoadException;
 import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormat;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class BMPImageReaderTests {
@@ -253,6 +256,14 @@ public class BMPImageReaderTests {
   public void readStreamLessThenOffsetTest() throws Exception {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(2)));
     reader.read();
+  }
+
+  @Test
+  public void readImage() throws Exception {
+    BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(Files.readAllBytes(Paths.get("assets/tru256.BMP"))));
+    RGBImage image = reader.read();
+    Assert.assertEquals(256, image.width());
+    Assert.assertEquals(64, image.height());
   }
 
   // Shallow copy of matrix.
