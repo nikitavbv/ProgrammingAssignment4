@@ -4,14 +4,15 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 import com.labs.introtoprogramming.lab4.image.RGBImage;
-import com.labs.introtoprogramming.lab4.image.io.ImageLoadException;
-import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormat;
+import com.labs.introtoprogramming.lab4.image.io.ImageReadException;
+import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormatException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -80,22 +81,22 @@ public class BMPImageReaderTests {
   );
 
   @Test
-  public void loadHeaderInfoTest() throws Exception {
+  public void loadHeaderInfoTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_FILE_HEADER.get(0)));
     reader.loadHeaderInfo();
     assertEquals(40, reader.offset);
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void loadHeaderInfoNoStreamDataTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void loadHeaderInfoNoStreamDataTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_FILE_HEADER.get(1)));
     reader.loadHeaderInfo();
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void loadHeaderInfoEmptyStreamTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void loadHeaderInfoEmptyStreamTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_FILE_HEADER.get(2)));
     reader.loadHeaderInfo();
@@ -103,7 +104,7 @@ public class BMPImageReaderTests {
 
 
   @Test
-  public void loadImageHeaderInfoTest() throws Exception {
+  public void loadImageHeaderInfoTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(0)));
     reader.loadImageHeaderInfo();
@@ -112,29 +113,29 @@ public class BMPImageReaderTests {
     assertEquals(3, reader.bytesPerPixel);
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void loadImageHeaderInfoNoStreamDataTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void loadImageHeaderInfoNoStreamDataTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(1)));
     reader.loadImageHeaderInfo();
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void loadImageHeaderInfoEmptyStreamTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void loadImageHeaderInfoEmptyStreamTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(2)));
     reader.loadImageHeaderInfo();
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void loadImageHeaderNoDataTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void loadImageHeaderNoDataTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(3)));
     reader.loadImageHeaderInfo();
   }
 
   @Test
-  public void loadPixelDataTest() throws Exception {
+  public void loadPixelDataTest() throws IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(0)));
     reader.width = 4;
@@ -147,7 +148,7 @@ public class BMPImageReaderTests {
   }
 
   @Test
-  public void loadPixelDataPaddingTest() throws Exception {
+  public void loadPixelDataPaddingTest() throws IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(1)));
     reader.width = 2;
@@ -159,8 +160,8 @@ public class BMPImageReaderTests {
     assertEquals(-1, reader.red[0][0]);
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void loadPixelDataWrongPaddingEndTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void loadPixelDataWrongPaddingEndTest() throws IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(2)));
     reader.width = 2;
@@ -169,8 +170,8 @@ public class BMPImageReaderTests {
     reader.loadPixelData();
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void loadPixelDataWrongPixelDataLengthTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void loadPixelDataWrongPixelDataLengthTest() throws IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_PIXEL_DATA.get(3)));
     reader.width = 2;
@@ -239,36 +240,38 @@ public class BMPImageReaderTests {
   }
 
   @Test
-  public void readTest() throws Exception {
+  public void readTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(0)));
     RGBImage image = reader.read();
     assertEquals(4, image.width());
     assertEquals(3, image.height());
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void readEmptyStreamTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void readEmptyStreamTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(1)));
     reader.read();
   }
 
-  @Test(expected = ImageLoadException.class)
-  public void readStreamLessThenOffsetTest() throws Exception {
+  @Test(expected = ImageReadException.class)
+  public void readStreamLessThenOffsetTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(DUMMY_DATA_TO_READ.get(2)));
     reader.read();
   }
 
   @Test
-  public void readImage() throws Exception {
+  public void readImage() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(Files.readAllBytes(Paths.get("assets/tru256.BMP"))));
     RGBImage image = reader.read();
     Assert.assertEquals(256, image.width());
     Assert.assertEquals(64, image.height());
   }
 
-  // Shallow copy of matrix.
-  // Used for sortRows tests.
-  // No need for deep copy due to sortRows does not change values in rows only their order.
+  /**
+   * Shallow copy of matrix.
+   * Used for sortRows tests.
+   * No need for deep copy due to sortRows does not change values in rows only their order.
+   */
   private static byte[][] copyMatrix(byte[][] matrix) {
     return Arrays.copyOfRange(matrix, 0, matrix.length);
   }
