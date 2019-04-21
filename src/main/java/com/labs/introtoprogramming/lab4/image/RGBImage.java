@@ -17,4 +17,24 @@ public class RGBImage {
     this.blue = blue;
   }
 
+  public int width() {
+    return width;
+  }
+
+  public int height() {
+    return height;
+  }
+
+  public byte[][] redChannel() {
+    return red;
+  }
+
+  public byte[][] greenChannel() {
+    return green;
+  }
+
+  public byte[][] blueChannel() {
+    return blue;
+  }
+
 }
