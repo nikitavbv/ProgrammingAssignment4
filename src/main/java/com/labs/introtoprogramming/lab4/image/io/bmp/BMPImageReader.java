@@ -3,6 +3,7 @@ package com.labs.introtoprogramming.lab4.image.io.bmp;
 import com.labs.introtoprogramming.lab4.image.RGBImage;
 import com.labs.introtoprogramming.lab4.image.io.ImageLoadException;
 import com.labs.introtoprogramming.lab4.image.io.ImageReader;
+import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,47 +25,43 @@ public class BMPImageReader implements ImageReader {
   }
 
   @Override
-  public RGBImage read() throws IOException {
+  public RGBImage read() throws IOException, UnsupportedDataFormat {
     loadHeaderInfo();
     loadImageHeaderInfo();
     in.reset();
-    in.skip(offset);
+    if (in.skip(offset) < offset) {
+      throw new ImageLoadException("Unexpected end of stream");
+    }
     loadPixelData();
     sortRows();
     return new RGBImage(width, height, red, green, blue);
   }
 
-  void loadHeaderInfo() {
-    try {
-      byte[] header = new byte[14];
-      int byteRead = in.read(header);
-      if (byteRead == -1) {
-        throw new ImageLoadException("Empty stream");
-      }
-      offset = parser.parseHeader(header);
-    } catch (Exception e) {
-      throw new ImageLoadException("Cannot read file header info", e);
+  void loadHeaderInfo() throws IOException, UnsupportedDataFormat  {
+    byte[] header = new byte[14];
+    if (in.read(header) < 14) {
+      throw new ImageLoadException("Unexpected end of file header");
     }
+    offset = parser.parseHeader(header) - 14;
   }
 
-  void loadImageHeaderInfo() {
-    try {
-      byte[] byteNumberPerSizeUnit = new byte[4];
-      in.mark(4);
-      in.read(byteNumberPerSizeUnit);
-      in.reset();
-      byte[] imageHeader = new byte[parser.sumUpBytes(byteNumberPerSizeUnit, 0, 4)];
-      in.read(imageHeader);
-      BMPImageHeader header = parser.parseImageHeader(imageHeader);
-      width = header.width();
-      height = header.height();
-      bytesPerPixel = header.bytesPerPixel();
-    } catch (Exception e) {
-      throw new ImageLoadException("Cannot read image header info", e);
+  void loadImageHeaderInfo() throws IOException, UnsupportedDataFormat {
+    byte[] byteNumberPerSizeUnit = new byte[4];
+    in.mark(4);
+    in.read(byteNumberPerSizeUnit);
+    in.reset();
+    int size = parser.sumUpBytes(byteNumberPerSizeUnit, 0, 4);
+    byte[] imageHeader = new byte[size];
+    if (in.read(imageHeader) < size) {
+      throw new ImageLoadException("Unexpected end of image header");
     }
+    BMPImageHeader header = parser.parseImageHeader(imageHeader);
+    width = header.width();
+    height = header.height();
+    bytesPerPixel = header.bytesPerPixel();
   }
 
-  void loadPixelData() throws ImageLoadException, IOException {
+  void loadPixelData() throws IOException {
     red = new byte[height][width];
     green = new byte[height][width];
     blue = new byte[height][width];
@@ -72,9 +69,13 @@ public class BMPImageReader implements ImageReader {
     int padding = (4 - bytesInRow % 4) % 4;
     byte[] pixel = new byte[bytesPerPixel];
     for (int i = 0; i < Math.abs(height); i++) {
-      in.skip(padding);
+      if (in.skip(padding) < padding) {
+        throw new ImageLoadException("Unexpected scan line padding");
+      }
       for (int j = 0; j < width; j++) {
-        in.read(pixel);
+        if (in.read(pixel) < bytesPerPixel) {
+          throw new ImageLoadException("Unexpected end of pixel data");
+        }
         red[i][j] = pixel[0];
         green[i][j] = pixel[1];
         blue[i][j] = pixel[2];
