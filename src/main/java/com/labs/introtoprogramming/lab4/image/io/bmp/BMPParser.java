@@ -25,6 +25,9 @@ class BMPParser {
   }
 
   BMPImageHeader parseImageHeader(byte[] headerInfo) throws UnsupportedDataFormat {
+    if (headerInfo.length < 4) {
+      throw new UnsupportedDataFormat("Incorrect image header");
+    }
     int headerSize = sumUpBytes(headerInfo, 0, 4);
     if (headerSize != headerInfo.length) {
       throw new UnsupportedDataFormat("Incorrect image header");
@@ -43,8 +46,8 @@ class BMPParser {
   }
 
   /**
-   * Get int value of first 4 bytes in subarray of bytes in littleEndian byte order.
-   * If subarray length is greater than 4 return value of first 4 byte.
+   * Get int value of 4 bytes in subarray of bytes in littleEndian byte order.
+   * If subarray length is greater than 4 return value of first 4 bytes.
    * If subarray length is less than 4 append 0 values to the end.
    *
    * @param bytes array of byte values
