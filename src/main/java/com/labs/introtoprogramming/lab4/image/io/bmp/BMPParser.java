@@ -28,8 +28,8 @@ class BMPParser {
     if (headerInfo.length < 4) {
       throw new UnsupportedDataFormatException("Incorrect image header");
     }
-    int headerSize = sumUpBytes(headerInfo, 0, 4);
-    if (headerSize != headerInfo.length) {
+    int size = sumUpBytes(headerInfo, 0, 4);
+    if (headerInfo.length != size) {
       throw new UnsupportedDataFormatException("Incorrect image header");
     }
 

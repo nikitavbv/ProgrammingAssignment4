@@ -85,7 +85,7 @@ public class BMPImageReaderTests {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_FILE_HEADER.get(0)));
     reader.loadHeaderInfo();
-    assertEquals(40, reader.offset);
+    assertEquals(54, reader.offset);
   }
 
   @Test(expected = ImageReadException.class)
@@ -260,7 +260,7 @@ public class BMPImageReaderTests {
   }
 
   @Test
-  public void readImage() throws UnsupportedDataFormatException, IOException {
+  public void readImageTest() throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(Files.readAllBytes(Paths.get("assets/tru256.BMP"))));
     RGBImage image = reader.read();
     Assert.assertEquals(256, image.width());

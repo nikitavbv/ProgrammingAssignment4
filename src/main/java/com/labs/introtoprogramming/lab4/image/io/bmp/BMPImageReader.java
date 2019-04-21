@@ -42,20 +42,20 @@ public class BMPImageReader implements ImageReader {
     if (in.read(header) < 14) {
       throw new ImageReadException("Unexpected end of file header");
     }
-    offset = parser.parseHeader(header) - 14;
+    offset = parser.parseHeader(header);
   }
 
   void loadImageHeaderInfo() throws IOException, UnsupportedDataFormatException {
     byte[] byteNumberPerSizeUnit = new byte[4];
-    in.mark(4);
     in.read(byteNumberPerSizeUnit);
-    in.reset();
     int size = parser.sumUpBytes(byteNumberPerSizeUnit, 0, 4);
+    size = size - 4 > 0 ? size - 4 : 0;
     byte[] imageHeader = new byte[size];
     if (in.read(imageHeader) < size) {
       throw new ImageReadException("Unexpected end of image header");
     }
-    BMPImageHeader header = parser.parseImageHeader(imageHeader);
+    BMPImageHeader header = parser.parseImageHeader(
+            concatArrays(byteNumberPerSizeUnit, imageHeader));
     width = header.width();
     height = header.height();
     bytesPerPixel = header.bytesPerPixel();
@@ -102,5 +102,14 @@ public class BMPImageReader implements ImageReader {
     byte[] temp = color[i];
     color[i] = color[j];
     color[j] = temp;
+  }
+
+  private byte[] concatArrays(byte[] a, byte[] b) {
+    int firstLen = a.length;
+    int secondLen = b.length;
+    byte[] res = new byte[firstLen + secondLen];
+    System.arraycopy(a, 0, res, 0, firstLen);
+    System.arraycopy(b, 0, res, firstLen, secondLen);
+    return res;
   }
 }
