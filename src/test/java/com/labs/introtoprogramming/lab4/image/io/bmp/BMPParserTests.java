@@ -3,7 +3,7 @@ package com.labs.introtoprogramming.lab4.image.io.bmp;
 import java.util.Arrays;
 import java.util.List;
 
-import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormat;
+import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormatException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -97,73 +97,73 @@ public class BMPParserTests {
   }
 
   @Test
-  public void parseHeaderTest() throws Exception {
+  public void parseHeaderTest() throws UnsupportedDataFormatException {
     int res = parser.parseHeader(DUMMY_FILE_HEADER.get(0));
     Assert.assertEquals(54, res);
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseHeaderSmallSizeTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderSmallSizeTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(1));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseHeaderNoBTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderNoBTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(2));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseHeaderNoMTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderNoMTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(3));
   }
 
-  @Test(expected =UnsupportedDataFormat.class)
-  public void parseHeaderEmptyArrayTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderEmptyArrayTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(4));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseHeaderNoOffsetTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderNoOffsetTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(5));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseHeaderTooLargeOffsetTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseHeaderTooLargeOffsetTest() throws UnsupportedDataFormatException {
     parser.parseHeader(DUMMY_FILE_HEADER.get(6));
   }
 
   @Test
-  public void parseHeader100Test() throws Exception {
+  public void parseHeader100Test() throws UnsupportedDataFormatException {
     int res = parser.parseHeader(DUMMY_FILE_HEADER.get(7));
     Assert.assertEquals(100, res);
   }
 
   @Test
-  public void parseHeaderOffsetEqualSizeTest() throws Exception {
+  public void parseHeaderOffsetEqualSizeTest() throws UnsupportedDataFormatException {
     int res = parser.parseHeader(DUMMY_FILE_HEADER.get(8));
     Assert.assertEquals(255, res);
   }
 
   @Test
-  public void parseImageHeaderTest() throws Exception {
+  public void parseImageHeaderTest() throws UnsupportedDataFormatException {
     BMPImageHeader header = parser.parseImageHeader(DUMMY_IMAGE_HEADER.get(0));
     Assert.assertEquals(65, header.width());
     Assert.assertEquals(65, header.height());
     Assert.assertEquals(3, header.bytesPerPixel());
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseImageHeaderEmptyArrayTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseImageHeaderEmptyArrayTest() throws UnsupportedDataFormatException {
     parser.parseImageHeader(DUMMY_IMAGE_HEADER.get(1));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseImageHeaderWrongSizeArrayTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseImageHeaderWrongSizeArrayTest() throws UnsupportedDataFormatException {
     parser.parseImageHeader(DUMMY_IMAGE_HEADER.get(2));
   }
 
-  @Test(expected = UnsupportedDataFormat.class)
-  public void parseImageHeaderWrongBytesForPixelTest() throws Exception {
+  @Test(expected = UnsupportedDataFormatException.class)
+  public void parseImageHeaderWrongBytesForPixelTest() throws UnsupportedDataFormatException {
     parser.parseImageHeader(DUMMY_IMAGE_HEADER.get(3));
   }
 }
