@@ -10,7 +10,7 @@ public class BMPImageWriterTests {
   public void testImageWrite() {
     ByteArrayOutputStream output = new ByteArrayOutputStream();
     BMPImageWriter writer = new BMPImageWriter(output);
-    writer.write(new RGBImage());
+    writer.write(new RGBImage(0, 0));
   }
 
 }

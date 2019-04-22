@@ -15,6 +15,6 @@ public class BMPImageReader implements ImageReader {
   @Override
   public RGBImage read() {
     // TODO: implement this
-    return new RGBImage();
+    return new RGBImage(0, 0);
   }
 }
