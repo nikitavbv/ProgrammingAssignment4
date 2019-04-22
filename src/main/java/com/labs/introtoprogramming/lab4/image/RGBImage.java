@@ -38,4 +38,16 @@ public class RGBImage {
   public int height() {
     return height;
   }
+
+  public byte[][] redChannel() {
+    return red;
+  }
+
+  public byte[][] greenChannel() {
+    return green;
+  }
+
+  public byte[][] blueChannel() {
+    return blue;
+  }
 }
