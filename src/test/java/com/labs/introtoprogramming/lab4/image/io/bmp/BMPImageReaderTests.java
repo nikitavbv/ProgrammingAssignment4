@@ -4,6 +4,7 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -85,7 +86,7 @@ public class BMPImageReaderTests {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_FILE_HEADER.get(0)));
     reader.loadHeaderInfo();
-    assertEquals(54, reader.offset);
+    assertEquals(40, reader.offset);
   }
 
   @Test(expected = ImageReadException.class)
@@ -261,7 +262,7 @@ public class BMPImageReaderTests {
 
   @Test
   public void readImageTest() throws UnsupportedDataFormatException, IOException {
-    BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(Files.readAllBytes(Paths.get("assets/tru256.BMP"))));
+    BMPImageReader reader = new BMPImageReader(new FileInputStream("assets/tru256.BMP"));
     RGBImage image = reader.read();
     Assert.assertEquals(256, image.width());
     Assert.assertEquals(64, image.height());

@@ -28,7 +28,7 @@ public class BMPImageReader implements ImageReader {
   public RGBImage read() throws IOException, UnsupportedDataFormatException {
     loadHeaderInfo();
     loadImageHeaderInfo();
-    in.reset();
+    System.out.println(offset);
     if (in.skip(offset) < offset) {
       throw new ImageReadException("Unexpected end of stream");
     }
@@ -42,7 +42,7 @@ public class BMPImageReader implements ImageReader {
     if (in.read(header) < 14) {
       throw new ImageReadException("Unexpected end of file header");
     }
-    offset = parser.parseHeader(header);
+    offset = parser.parseHeader(header) - header.length;
   }
 
   void loadImageHeaderInfo() throws IOException, UnsupportedDataFormatException {
@@ -54,11 +54,12 @@ public class BMPImageReader implements ImageReader {
     if (in.read(imageHeader) < size) {
       throw new ImageReadException("Unexpected end of image header");
     }
-    BMPImageHeader header = parser.parseImageHeader(
-            concatArrays(byteNumberPerSizeUnit, imageHeader));
+    imageHeader = concatArrays(byteNumberPerSizeUnit, imageHeader);
+    BMPImageHeader header = parser.parseImageHeader(imageHeader);
     width = header.width();
     height = header.height();
     bytesPerPixel = header.bytesPerPixel();
+    offset = offset - imageHeader.length;
   }
 
   void loadPixelData() throws IOException {
