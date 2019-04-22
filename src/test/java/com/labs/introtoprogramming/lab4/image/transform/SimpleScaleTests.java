@@ -40,6 +40,7 @@ public class SimpleScaleTests {
   }
 
   @Test
+
   public void simpleScaleTest() {
     SimpleScale scale = new SimpleScale(2);
     RGBImage scaledImage = scale.applyTo(DUMMY_IMAGES.get(0));

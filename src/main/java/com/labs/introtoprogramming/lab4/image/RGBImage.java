@@ -10,11 +10,15 @@ public class RGBImage {
   private byte[][] blue;
 
   public RGBImage(int width, int height) {
+    this(width, height, new byte[height][width], new byte[height][width], new byte[height][width]);
+  }
+  
+  public RGBImage(int width, int height, byte[][] red, byte[][] green, byte[][] blue) {
     this.width = width;
     this.height = height;
-    red = new byte[height][width];
-    green = new byte[height][width];
-    blue = new byte[height][width];
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
   }
 
   public Pixel getPixel(int x, int y) {
@@ -27,11 +31,11 @@ public class RGBImage {
     blue[x][y] = p.blue();
   }
 
-  public int height() {
-    return height;
-  }
-
   public int width() {
     return width;
+  }
+
+  public int height() {
+    return height;
   }
 }
