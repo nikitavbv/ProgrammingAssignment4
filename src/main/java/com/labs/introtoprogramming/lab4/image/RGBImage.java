@@ -17,14 +17,14 @@ public class RGBImage {
     blue = new byte[height][width];
   }
 
-  public Pixel getPixel(int row, int column) {
-    return new Pixel(red[row][column], green[row][column], blue[row][column]);
+  public Pixel getPixel(int x, int y) {
+    return new Pixel(red[x][y], green[x][y], blue[x][y]);
   }
 
-  public void setPixel(int row, int column, Pixel p) {
-    red[row][column] = p.red();
-    green[row][column] = p.green();
-    blue[row][column] = p.blue();
+  public void setPixel(int x, int y, Pixel p) {
+    red[x][y] = p.red();
+    green[x][y] = p.green();
+    blue[x][y] = p.blue();
   }
 
   public int height() {
