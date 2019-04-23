@@ -70,4 +70,12 @@ public class Scale implements RGBImageTransformation {
   double lerp(double coord, int coord1, int coord2, int v1, int v2) {
     return (coord2 - coord) / (coord2 - coord1) * v1 + (coord - coord1) / (coord2 - coord1) * v2;
   }
+
+  public double horizontalScale() {
+    return horizontalScale;
+  }
+
+  public double verticalScale() {
+    return verticalScale;
+  }
 }
