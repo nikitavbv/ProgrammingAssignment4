@@ -1,5 +1,7 @@
 package com.labs.introtoprogramming.lab4.image;
 
+import java.util.Objects;
+
 public class Pixel {
   private byte red;
   private byte green;
@@ -21,5 +23,24 @@ public class Pixel {
 
   public byte blue() {
     return blue;
+  }
+
+  @Override
+  public String toString() {
+    return "Pixel{" +
+            "r=" + red +
+            ", g=" + green +
+            ", b=" + blue +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Pixel)) return false;
+    Pixel pixel = (Pixel) o;
+    return red == pixel.red &&
+            green == pixel.green &&
+            blue == pixel.blue;
   }
 }
