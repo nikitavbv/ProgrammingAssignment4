@@ -11,6 +11,12 @@ public class SimpleScale implements RGBImageTransformation {
     this.times = times;
   }
 
+  /**
+   * Scale image by times in both directions.
+   *
+   * @param image image to scale
+   * @return scaled image
+   */
   public RGBImage applyTo(RGBImage image) {
     int h = image.height();
     int w = image.width();

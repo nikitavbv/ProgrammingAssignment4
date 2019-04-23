@@ -1,9 +1,10 @@
 package com.labs.introtoprogramming.lab4.image.io.bmp;
 
+import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormatException;
+
 import java.util.Arrays;
 import java.util.List;
 
-import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormatException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,17 +36,17 @@ public class BMPParserTests {
 
   private static final List<byte[]> DUMMY_IMAGE_HEADER = Arrays.asList(
           new byte[]{
-                  40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
           },
           new byte[0],
           new byte[]{
-                  40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0
+            40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0
           },
           new byte[]{
-                  40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 25, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 25, 0, 0, 0, 0, 0,
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
           }
   );
 

@@ -5,11 +5,11 @@ import static org.junit.Assert.assertEquals;
 import com.labs.introtoprogramming.lab4.image.Pixel;
 import com.labs.introtoprogramming.lab4.image.RGBImage;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class SimpleScaleTests {
   private static byte w = -1;
@@ -40,7 +40,6 @@ public class SimpleScaleTests {
   }
 
   @Test
-
   public void simpleScaleTest() {
     SimpleScale scale = new SimpleScale(2);
     RGBImage scaledImage = scale.applyTo(DUMMY_IMAGES.get(0));
@@ -83,5 +82,6 @@ public class SimpleScaleTests {
     assertEquals(w, scaledImage.getPixel(4, 0).red());
     assertEquals(w, scaledImage.getPixel(0, 1).red());
     assertEquals(b, scaledImage.getPixel(2, 1).red());
-    assertEquals(w, scaledImage.getPixel(4, 1).red());  }
+    assertEquals(w, scaledImage.getPixel(4, 1).red());
+  }
 }

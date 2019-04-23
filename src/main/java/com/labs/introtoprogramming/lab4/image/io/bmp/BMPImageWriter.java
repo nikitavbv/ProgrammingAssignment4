@@ -94,7 +94,7 @@ public class BMPImageWriter implements ImageWriter {
   }
 
   int getPixelStorageRowSize(RGBImage image) {
-    return (int) Math.ceil((double) (NUMBER_OF_BITS_PER_PIXEL * image.width())/ 32) * 4;
+    return (int) Math.ceil((double) (NUMBER_OF_BITS_PER_PIXEL * image.width()) / 32) * 4;
   }
 
   @Override

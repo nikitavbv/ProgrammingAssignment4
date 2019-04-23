@@ -68,11 +68,11 @@ public class BMPImageWriterTests {
     BMPImageWriter writer = new BMPImageWriter(new ByteArrayOutputStream());
     assertArrayEquals(
             new byte[] {
-                    (byte) 0xDD, 0, 0,
-                    (byte) 0xEE, (byte) 0xCC, (byte) 0xAA,
-                    0, 0, 0,
-                    0, (byte) 0xFF, 0,
-                    (byte) 0xBB, 0, 0, 0
+              (byte) 0xDD, 0, 0,
+              (byte) 0xEE, (byte) 0xCC, (byte) 0xAA,
+              0, 0, 0,
+              0, (byte) 0xFF, 0,
+              (byte) 0xBB, 0, 0, 0
             },
             writer.pixelStorageAsByteBuffer(DUMMY_IMAGE).array()
     );
@@ -84,10 +84,10 @@ public class BMPImageWriterTests {
     BMPImageWriter writer = new BMPImageWriter(new ByteArrayOutputStream());
     assertArrayEquals(
             new byte[] {
-                    40, 0, 0, 0, 2, 0, 0, 0, 2, 0,
-                    0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                    16, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+              40, 0, 0, 0, 2, 0, 0, 0, 2, 0,
+              0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+              16, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             },
             writer.dibHeaderAsByteBuffer(DUMMY_IMAGE, 16).array()
     );
@@ -99,10 +99,10 @@ public class BMPImageWriterTests {
     BMPImageWriter writer = new BMPImageWriter(new ByteArrayOutputStream());
     assertArrayEquals(
             new byte[] {
-                    0x42, 0x4D,
-                    14 + 40 + 16, 0, 0, 0,
-                    0, 0, 0, 0,
-                    14 + 40, 0, 0, 0
+              0x42, 0x4D,
+              14 + 40 + 16, 0, 0, 0,
+              0, 0, 0, 0,
+              14 + 40, 0, 0, 0
             },
             writer.headerAsByteBuffer(40, 16).array()
     );
@@ -117,7 +117,8 @@ public class BMPImageWriterTests {
     writer.close();
 
     ImageReader reader = ImageIO.getImageReadersByFormatName("bmp").next();
-    ImageInputStream imageInputStream = ImageIO.createImageInputStream(new ByteArrayInputStream(output.toByteArray()));
+    ImageInputStream imageInputStream = ImageIO.createImageInputStream(
+            new ByteArrayInputStream(output.toByteArray()));
     reader.setInput(imageInputStream, true);
 
     BufferedImage image = reader.read(0);

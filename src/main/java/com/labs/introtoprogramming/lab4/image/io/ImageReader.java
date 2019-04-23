@@ -7,5 +7,6 @@ import java.io.IOException;
 public interface ImageReader {
 
   RGBImage read() throws IOException, UnsupportedDataFormatException;
+
   void close() throws IOException;
 }

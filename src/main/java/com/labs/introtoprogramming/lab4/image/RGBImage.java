@@ -12,7 +12,16 @@ public class RGBImage {
   public RGBImage(int width, int height) {
     this(width, height, new byte[height][width], new byte[height][width], new byte[height][width]);
   }
-  
+
+  /**
+   * Representation of rgb image.
+   *
+   * @param width width of image in pixels
+   * @param height height of image in pixels
+   * @param red matrix of red values of pixels
+   * @param green matrix of green values of pixels
+   * @param blue matrix of blue values of pixels
+   */
   public RGBImage(int width, int height, byte[][] red, byte[][] green, byte[][] blue) {
     this.width = width;
     this.height = height;
