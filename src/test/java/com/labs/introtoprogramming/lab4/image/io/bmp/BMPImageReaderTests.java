@@ -290,7 +290,6 @@ public class BMPImageReaderTests {
     reader.close();
   }
 
-
   /**
    * Shallow copy of matrix.
    * Used for sortRows tests.
