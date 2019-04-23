@@ -41,4 +41,9 @@ public class Pixel {
             green == pixel.green &&
             blue == pixel.blue;
   }
+
+  @Override
+  public int hashCode() {
+    return (red<<16)&0x00ff0000 | (green<<8)&0x0000ff00 | blue&0x000000ff;
+  }
 }
