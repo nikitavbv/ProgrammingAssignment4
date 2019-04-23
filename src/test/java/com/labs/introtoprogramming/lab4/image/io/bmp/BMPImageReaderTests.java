@@ -3,6 +3,7 @@ package com.labs.introtoprogramming.lab4.image.io.bmp;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
+import com.labs.introtoprogramming.lab4.image.Pixel;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -266,6 +267,18 @@ public class BMPImageReaderTests {
     RGBImage image = reader.read();
     Assert.assertEquals(256, image.width());
     Assert.assertEquals(64, image.height());
+  }
+
+  @Test
+  public void read2x2ImageTest() throws UnsupportedDataFormatException, IOException {
+    BMPImageReader reader = new BMPImageReader(new FileInputStream("assets/test2x2.bmp"));
+    RGBImage image = reader.read();
+    Assert.assertEquals(2, image.width());
+    Assert.assertEquals(2, image.height());
+    assertEquals(new Pixel((byte) 255, (byte) 0, (byte) 0), image.getPixel(0, 0));
+    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 221), image.getPixel(0, 1));
+    assertEquals(new Pixel((byte) 107, (byte) 204, (byte) 238), image.getPixel(1, 1));
   }
 
   /**
