@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public interface ImageWriter {
 
-  public void write(RGBImage image) throws IOException;
+  void write(RGBImage image) throws IOException;
 
   void close() throws IOException;
 }
