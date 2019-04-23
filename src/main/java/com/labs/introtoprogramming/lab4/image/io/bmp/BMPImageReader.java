@@ -36,6 +36,11 @@ public class BMPImageReader implements ImageReader {
     return new RGBImage(width, height, red, green, blue);
   }
 
+  @Override
+  public void close() throws IOException {
+    in.close();
+  }
+
   void loadHeaderInfo() throws IOException, UnsupportedDataFormatException {
     byte[] header = new byte[14];
     if (in.read(header) < 14) {
@@ -62,20 +67,21 @@ public class BMPImageReader implements ImageReader {
   }
 
   void loadPixelData() throws IOException {
-    red = new byte[height][width];
-    green = new byte[height][width];
-    blue = new byte[height][width];
+    int h = Math.abs(height);
+    red = new byte[h][width];
+    green = new byte[h][width];
+    blue = new byte[h][width];
     int bytesInRow = bytesPerPixel * width;
     int padding = (4 - bytesInRow % 4) % 4;
     byte[] pixel = new byte[bytesPerPixel];
-    for (int i = 0; i < Math.abs(height); i++) {
+    for (int i = 0; i < h; i++) {
       for (int j = 0; j < width; j++) {
         if (in.read(pixel) < bytesPerPixel) {
           throw new ImageReadException("Unexpected end of pixel data");
         }
-        red[i][j] = pixel[0];
+        blue[i][j] = pixel[0];
         green[i][j] = pixel[1];
-        blue[i][j] = pixel[2];
+        red[i][j] = pixel[2];
       }
       if (in.skip(padding) < padding) {
         throw new ImageReadException("Unexpected scan line padding");
@@ -87,10 +93,10 @@ public class BMPImageReader implements ImageReader {
    * Change rows of matrix according to order of scan lines in file
    */
   void sortRows() {
-    if (height > 0) {
+    if (height < 0) {
       return;
     }
-    for (int i = 0, j = Math.abs(height) - 1; i <= j; i++, j--) {
+    for (int i = 0, j = height - 1; i <= j; i++, j--) {
       swapRow(red, i, j);
       swapRow(green, i, j);
       swapRow(blue, i, j);
