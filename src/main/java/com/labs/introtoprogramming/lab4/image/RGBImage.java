@@ -21,14 +21,28 @@ public class RGBImage {
     this.blue = blue;
   }
 
+  /**
+   * Return pixel data at position (x, y).
+   *
+   * @param x x coordinate (number of column)
+   * @param y y coordinate (number of row)
+   * @return pixel with rgb data
+   */
   public Pixel getPixel(int x, int y) {
-    return new Pixel(red[x][y], green[x][y], blue[x][y]);
+    return new Pixel(red[y][x], green[y][x], blue[y][x]);
   }
 
+  /**
+   * Set pixel at position (x, y).
+   *
+   * @param x x coordinate (number of column)
+   * @param y y coordinate (number of row)
+   * @param p pixel data to set
+   */
   public void setPixel(int x, int y, Pixel p) {
-    red[x][y] = p.red();
-    green[x][y] = p.green();
-    blue[x][y] = p.blue();
+    red[y][x] = p.red();
+    green[y][x] = p.green();
+    blue[y][x] = p.blue();
   }
 
   public int width() {
