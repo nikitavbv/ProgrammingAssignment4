@@ -28,7 +28,6 @@ public class BMPImageReader implements ImageReader {
   public RGBImage read() throws IOException, UnsupportedDataFormatException {
     loadHeaderInfo();
     loadImageHeaderInfo();
-    System.out.println(offset);
     if (in.skip(offset) < offset) {
       throw new ImageReadException("Unexpected end of stream");
     }
@@ -87,6 +86,9 @@ public class BMPImageReader implements ImageReader {
         green[i][j] = pixel[1];
         blue[i][j] = pixel[2];
       }
+      if (in.skip(padding) < padding) {
+        throw new ImageReadException("Unexpected scan line padding");
+      }
     }
   }
 
@@ -94,10 +96,10 @@ public class BMPImageReader implements ImageReader {
    * Change rows of matrix according to order of scan lines in file
    */
   void sortRows() {
-    if (height < 0) {
+    if (height > 0) {
       return;
     }
-    for (int i = 0, j = height - 1; i <= j; i++, j--) {
+    for (int i = 0, j = Math.abs(height) - 1; i <= j; i++, j--) {
       swapRow(red, i, j);
       swapRow(green, i, j);
       swapRow(blue, i, j);

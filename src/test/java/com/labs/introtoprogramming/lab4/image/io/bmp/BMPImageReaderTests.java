@@ -3,6 +3,7 @@ package com.labs.introtoprogramming.lab4.image.io.bmp;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
+import com.labs.introtoprogramming.lab4.image.Pixel;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,13 +39,13 @@ public class BMPImageReaderTests {
           new byte[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
                   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, 0, 0
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
                   0, 0, -1, -1, -1, -1, -1, -1, 0,
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
                   0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1
           }
   );
@@ -229,7 +230,7 @@ public class BMPImageReaderTests {
     reader.blue = copyMatrix(matrix);
     reader.height = 3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{3}, reader.red[0]);
+    assertArrayEquals(new byte[]{1}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
     assertArrayEquals(new byte[]{1}, reader.red[2]);
     reader.close();
@@ -239,10 +240,12 @@ public class BMPImageReaderTests {
   public void sortRowsNegativeHeightTest() throws IOException {
     byte[][] matrix = DUMMY_MATRIX_TO_SORT.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
-    reader.red = reader.green = reader.blue = matrix;
+    reader.red = copyMatrix(matrix);
+    reader.green = copyMatrix(matrix);
+    reader.blue = copyMatrix(matrix);
     reader.height = -3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{1}, reader.red[0]);
+    assertArrayEquals(new byte[]{3}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
     assertArrayEquals(new byte[]{3}, reader.red[2]);
     reader.close();
@@ -288,6 +291,18 @@ public class BMPImageReaderTests {
     Assert.assertEquals(256, image.width());
     Assert.assertEquals(64, image.height());
     reader.close();
+  }
+
+  @Test
+  public void read2x2ImageTest() throws UnsupportedDataFormatException, IOException {
+    BMPImageReader reader = new BMPImageReader(new FileInputStream("assets/test2x2.bmp"));
+    RGBImage image = reader.read();
+    Assert.assertEquals(2, image.width());
+    Assert.assertEquals(2, image.height());
+    assertEquals(new Pixel((byte) 255, (byte) 0, (byte) 0), image.getPixel(0, 0));
+    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(0, 1));
+    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 221), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 170, (byte) 204, (byte) 238), image.getPixel(1, 1));
   }
 
   /**
