@@ -230,7 +230,7 @@ public class BMPImageReaderTests {
     reader.blue = copyMatrix(matrix);
     reader.height = 3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{1}, reader.red[0]);
+    assertArrayEquals(new byte[]{3}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
     assertArrayEquals(new byte[]{1}, reader.red[2]);
     reader.close();
@@ -245,7 +245,7 @@ public class BMPImageReaderTests {
     reader.blue = copyMatrix(matrix);
     reader.height = -3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{3}, reader.red[0]);
+    assertArrayEquals(new byte[]{1}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
     assertArrayEquals(new byte[]{3}, reader.red[2]);
     reader.close();
@@ -299,11 +299,10 @@ public class BMPImageReaderTests {
     RGBImage image = reader.read();
     Assert.assertEquals(2, image.width());
     Assert.assertEquals(2, image.height());
-    assertEquals(new Pixel((byte) 255, (byte) 0, (byte) 0), image.getPixel(0, 0));
-    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(0, 1));
-    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 221), image.getPixel(1, 0));
-    assertEquals(new Pixel((byte) 170, (byte) 204, (byte) 238), image.getPixel(1, 1));
-  }
+    assertEquals(new Pixel((byte) 221, (byte) 0, (byte) 0), image.getPixel(0, 0));
+    assertEquals(new Pixel((byte) 238, (byte) 204, (byte) 170), image.getPixel(0, 1));
+    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 255), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 1)); }
 
   /**
    * Shallow copy of matrix.
