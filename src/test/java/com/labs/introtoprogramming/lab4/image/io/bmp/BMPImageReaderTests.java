@@ -4,18 +4,16 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 import com.labs.introtoprogramming.lab4.image.Pixel;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-
 import com.labs.introtoprogramming.lab4.image.RGBImage;
 import com.labs.introtoprogramming.lab4.image.io.ImageReadException;
 import com.labs.introtoprogramming.lab4.image.io.UnsupportedDataFormatException;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +26,7 @@ public class BMPImageReaderTests {
 
   private static final List<byte[]> DUMMY_IMAGE_HEADER = Arrays.asList(
           new byte[]{40, 0, 0, 0, 65, 0, 0, 0, 65, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
           },
           new byte[0],
           new byte[40],
@@ -37,16 +35,16 @@ public class BMPImageReaderTests {
 
   private static final List<byte[]> DUMMY_PIXEL_DATA = Arrays.asList(
           new byte[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
           },
           new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, 0, 0
+            0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, 0, 0
           },
           new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0,
+            0, 0, -1, -1, -1, -1, -1, -1, 0,
           },
           new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1
+            0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1
           }
   );
 
@@ -70,16 +68,15 @@ public class BMPImageReaderTests {
 
   private static final List<byte[]> DUMMY_DATA_TO_READ = Arrays.asList(
           new byte[]{66, 77, -4, 49, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0,
-                  40, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-
+            40, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
           },
           new byte[] {},
           new byte[]{66, 77, -4, 49, 0, 0, 0, 0, 0, 0, 55, 0, 0, 0,
-                  40, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
-                  -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            40, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0,
+            -58, 49, 0, 0, 18, 11, 0, 0, 18, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           }
   );
 
@@ -121,7 +118,8 @@ public class BMPImageReaderTests {
   }
 
   @Test(expected = ImageReadException.class)
-  public void loadImageHeaderInfoNoStreamDataTest() throws UnsupportedDataFormatException, IOException {
+  public void loadImageHeaderInfoNoStreamDataTest(
+  ) throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(1)));
     reader.loadImageHeaderInfo();
@@ -129,7 +127,8 @@ public class BMPImageReaderTests {
   }
 
   @Test(expected = UnsupportedDataFormatException.class)
-  public void loadImageHeaderInfoEmptyStreamTest() throws UnsupportedDataFormatException, IOException {
+  public void loadImageHeaderInfoEmptyStreamTest(
+  ) throws UnsupportedDataFormatException, IOException {
     BMPImageReader reader = new BMPImageReader(
             new ByteArrayInputStream(DUMMY_IMAGE_HEADER.get(2)));
     reader.loadImageHeaderInfo();
@@ -302,7 +301,8 @@ public class BMPImageReaderTests {
     assertEquals(new Pixel((byte) 221, (byte) 0, (byte) 0), image.getPixel(0, 0));
     assertEquals(new Pixel((byte) 238, (byte) 204, (byte) 170), image.getPixel(1, 0));
     assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 255), image.getPixel(0, 1));
-    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 1)); }
+    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 1));
+  }
 
   /**
    * Shallow copy of matrix.

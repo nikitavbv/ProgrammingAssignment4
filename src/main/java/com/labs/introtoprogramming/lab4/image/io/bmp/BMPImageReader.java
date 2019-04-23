@@ -90,7 +90,7 @@ public class BMPImageReader implements ImageReader {
   }
 
   /**
-   * Change rows of matrix according to order of scan lines in file
+   * Change rows of matrix according to order of scan lines in file.
    */
   void sortRows() {
     if (height < 0) {
@@ -104,7 +104,9 @@ public class BMPImageReader implements ImageReader {
   }
 
   void swapRow(byte[][] color, int i, int j) {
-    if (color.length == 0) return;
+    if (color.length == 0) {
+      return;
+    }
     byte[] temp = color[i];
     color[i] = color[j];
     color[j] = temp;
