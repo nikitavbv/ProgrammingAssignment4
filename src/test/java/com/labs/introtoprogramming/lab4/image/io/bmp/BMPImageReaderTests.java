@@ -38,13 +38,13 @@ public class BMPImageReaderTests {
           new byte[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
                   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, 0, 0
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
-                  0, 0, -1, -1, -1, -1, -1, -1, 0,
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+                  0, 0, -1, -1, -1, -1, -1, -1, 0, 0, 0
           },
-          new byte[]{0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
+          new byte[]{-1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1,
                   0, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1
           }
   );
@@ -215,21 +215,23 @@ public class BMPImageReaderTests {
     reader.blue = copyMatrix(matrix);
     reader.height = 3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{3}, reader.red[0]);
+    assertArrayEquals(new byte[]{1}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
-    assertArrayEquals(new byte[]{1}, reader.red[2]);
+    assertArrayEquals(new byte[]{3}, reader.red[2]);
   }
 
   @Test
   public void sortRowsNegativeHeightTest() {
     byte[][] matrix = DUMMY_MATRIX_TO_SORT.get(0);
     BMPImageReader reader = new BMPImageReader(new ByteArrayInputStream(new byte[0]));
-    reader.red = reader.green = reader.blue = matrix;
+    reader.red = copyMatrix(matrix);
+    reader.green = copyMatrix(matrix);
+    reader.blue = copyMatrix(matrix);
     reader.height = -3;
     reader.sortRows();
-    assertArrayEquals(new byte[]{1}, reader.red[0]);
+    assertArrayEquals(new byte[]{3}, reader.red[0]);
     assertArrayEquals(new byte[]{2}, reader.red[1]);
-    assertArrayEquals(new byte[]{3}, reader.red[2]);
+    assertArrayEquals(new byte[]{1}, reader.red[2]);
   }
 
   @Test
@@ -276,9 +278,9 @@ public class BMPImageReaderTests {
     Assert.assertEquals(2, image.width());
     Assert.assertEquals(2, image.height());
     assertEquals(new Pixel((byte) 255, (byte) 0, (byte) 0), image.getPixel(0, 0));
-    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 0));
-    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 221), image.getPixel(0, 1));
-    assertEquals(new Pixel((byte) 107, (byte) 204, (byte) 238), image.getPixel(1, 1));
+    assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(0, 1));
+    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 221), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 170, (byte) 204, (byte) 238), image.getPixel(1, 1));
   }
 
   /**

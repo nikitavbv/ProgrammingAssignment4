@@ -1,7 +1,5 @@
 package com.labs.introtoprogramming.lab4.image;
 
-import java.util.Objects;
-
 public class Pixel {
   private byte red;
   private byte green;
