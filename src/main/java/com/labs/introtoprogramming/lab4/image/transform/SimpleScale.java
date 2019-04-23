@@ -37,4 +37,8 @@ public class SimpleScale implements RGBImageTransformation {
       }
     }
   }
+
+  public int times() {
+    return times;
+  }
 }
