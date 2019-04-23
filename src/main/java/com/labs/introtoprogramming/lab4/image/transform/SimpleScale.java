@@ -17,8 +17,8 @@ public class SimpleScale implements RGBImageTransformation {
     RGBImage scaledImage = new RGBImage(w * times, h * times);
     for (int i = 0; i < h; i++) {
       for (int j = 0; j < w; j++) {
-        Pixel p = image.getPixel(i, j);
-        setScaledPixel(scaledImage, i, j, p);
+        Pixel p = image.getPixel(j, i);
+        setScaledPixel(scaledImage, j, i, p);
       }
     }
     return scaledImage;

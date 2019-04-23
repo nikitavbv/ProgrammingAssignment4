@@ -25,18 +25,18 @@ public class SimpleScaleTests {
   public static void initImages() {
     RGBImage image = DUMMY_IMAGES.get(0);
     image.setPixel(0, 0, new Pixel(w, w, w));
-    image.setPixel(0, 1, new Pixel(w, w, w));
-    image.setPixel(1, 0, new Pixel(b, b, b));
+    image.setPixel(1, 0, new Pixel(w, w, w));
+    image.setPixel(0, 1, new Pixel(b, b, b));
     image.setPixel(1, 1, new Pixel(b, b, b));
     image = DUMMY_IMAGES.get(1);
     image.setPixel(0, 0, new Pixel(w, w, w));
-    image.setPixel(0, 1, new Pixel(w, w, w));
-    image.setPixel(1, 0, new Pixel(b, b, b));
+    image.setPixel(1, 0, new Pixel(w, w, w));
+    image.setPixel(0, 1, new Pixel(b, b, b));
     image.setPixel(1, 1, new Pixel(b, b, b));
     image = DUMMY_IMAGES.get(3);
     image.setPixel(0, 0, new Pixel(w, w, w));
-    image.setPixel(0, 1, new Pixel(b, b, b));
-    image.setPixel(0, 2, new Pixel(w, w, w));
+    image.setPixel(1, 0, new Pixel(b, b, b));
+    image.setPixel(2, 0, new Pixel(w, w, w));
   }
 
   @Test
@@ -47,8 +47,8 @@ public class SimpleScaleTests {
     assertEquals(4, scaledImage.width());
     assertEquals(4, scaledImage.height());
     assertEquals(w, scaledImage.getPixel(0, 0).red());
-    assertEquals(w, scaledImage.getPixel(0, 3).red());
-    assertEquals(b, scaledImage.getPixel(3, 0).red());
+    assertEquals(w, scaledImage.getPixel(3, 0).red());
+    assertEquals(b, scaledImage.getPixel(0, 3).red());
     assertEquals(b, scaledImage.getPixel(3, 3).red());
   }
 
@@ -59,8 +59,8 @@ public class SimpleScaleTests {
     assertEquals(2, scaledImage.width());
     assertEquals(2, scaledImage.height());
     assertEquals(w, scaledImage.getPixel(0, 0).red());
-    assertEquals(w, scaledImage.getPixel(0, 1).red());
-    assertEquals(b, scaledImage.getPixel(1, 0).red());
+    assertEquals(w, scaledImage.getPixel(1, 0).red());
+    assertEquals(b, scaledImage.getPixel(0, 1).red());
     assertEquals(b, scaledImage.getPixel(1, 1).red());
   }
 
@@ -79,9 +79,9 @@ public class SimpleScaleTests {
     assertEquals(6, scaledImage.width());
     assertEquals(2, scaledImage.height());
     assertEquals(w, scaledImage.getPixel(0, 0).red());
-    assertEquals(b, scaledImage.getPixel(0, 2).red());
-    assertEquals(w, scaledImage.getPixel(0, 4).red());
-    assertEquals(w, scaledImage.getPixel(1, 0).red());
-    assertEquals(b, scaledImage.getPixel(1, 2).red());
-    assertEquals(w, scaledImage.getPixel(1, 4).red());  }
+    assertEquals(b, scaledImage.getPixel(2, 0).red());
+    assertEquals(w, scaledImage.getPixel(4, 0).red());
+    assertEquals(w, scaledImage.getPixel(0, 1).red());
+    assertEquals(b, scaledImage.getPixel(2, 1).red());
+    assertEquals(w, scaledImage.getPixel(4, 1).red());  }
 }

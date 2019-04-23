@@ -300,8 +300,8 @@ public class BMPImageReaderTests {
     Assert.assertEquals(2, image.width());
     Assert.assertEquals(2, image.height());
     assertEquals(new Pixel((byte) 221, (byte) 0, (byte) 0), image.getPixel(0, 0));
-    assertEquals(new Pixel((byte) 238, (byte) 204, (byte) 170), image.getPixel(0, 1));
-    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 255), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 238, (byte) 204, (byte) 170), image.getPixel(1, 0));
+    assertEquals(new Pixel((byte) 0, (byte) 0, (byte) 255), image.getPixel(0, 1));
     assertEquals(new Pixel((byte) 0, (byte) 187, (byte) 0), image.getPixel(1, 1)); }
 
   /**
