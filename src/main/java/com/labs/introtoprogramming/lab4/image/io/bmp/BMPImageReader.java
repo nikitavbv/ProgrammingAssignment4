@@ -68,13 +68,14 @@ public class BMPImageReader implements ImageReader {
   }
 
   void loadPixelData() throws IOException {
-    red = new byte[height][width];
-    green = new byte[height][width];
-    blue = new byte[height][width];
+    int h = Math.abs(height);
+    red = new byte[h][width];
+    green = new byte[h][width];
+    blue = new byte[h][width];
     int bytesInRow = bytesPerPixel * width;
     int padding = (4 - bytesInRow % 4) % 4;
     byte[] pixel = new byte[bytesPerPixel];
-    for (int i = 0; i < Math.abs(height); i++) {
+    for (int i = 0; i < h; i++) {
       if (in.skip(padding) < padding) {
         throw new ImageReadException("Unexpected scan line padding");
       }
