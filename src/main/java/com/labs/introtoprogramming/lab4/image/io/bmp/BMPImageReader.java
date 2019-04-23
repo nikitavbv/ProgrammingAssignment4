@@ -37,6 +37,11 @@ public class BMPImageReader implements ImageReader {
     return new RGBImage(width, height, red, green, blue);
   }
 
+  @Override
+  public void close() throws IOException {
+    in.close();
+  }
+
   void loadHeaderInfo() throws IOException, UnsupportedDataFormatException {
     byte[] header = new byte[14];
     if (in.read(header) < 14) {
