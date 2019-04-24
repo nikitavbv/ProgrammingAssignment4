@@ -138,16 +138,6 @@ public class MainTests {
     main.checkIfSourceAndDestinationAreCorrect();
   }
 
-  @Test(expected = ArgumentsException.class)
-  public void testActionNoArg() throws ArgumentsException {
-    new Main().parseArgs(new String[]{"assets", "assets_test_out", "--scale"});
-  }
-
-  @Test(expected = ArgumentsException.class)
-  public void testActionNoArgFollowedByOtherArg() throws ArgumentsException {
-    new Main().parseArgs(new String[]{"assets", "assets_test_out", "--scale", "--something-else", "42"});
-  }
-
   @Test
   public void testProcessFile() {
     Main main = new Main();

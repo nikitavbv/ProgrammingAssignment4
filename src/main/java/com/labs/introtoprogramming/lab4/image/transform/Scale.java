@@ -22,13 +22,14 @@ public class Scale implements RGBImageTransformation {
   public RGBImage applyTo(RGBImage image) {
     int w = image.width();
     int h = image.height();
-    int scaledWidth = (int) (w * horizontalScale);
-    int scaledHeight = (int) (h * verticalScale);
+    int scaledWidth = Math.abs((int) (w * horizontalScale));
+    int scaledHeight = Math.abs((int) (h * verticalScale));
     RGBImage scaledImage = new RGBImage(scaledWidth, scaledHeight);
     double widthRation = (double) (w - 1)
-            / (scaledWidth - 1 > 1 ? scaledWidth - 1 : scaledWidth);
+            / (scaledWidth - 1 >= 1 ? scaledWidth - 1 : scaledWidth);
     double heightRation = (double) (h - 1)
-            / (scaledHeight - 1 > 1 ? scaledHeight - 1 : scaledHeight);
+            / (scaledHeight - 1 >= 1 ? scaledHeight - 1 : scaledHeight);
+
     for (int i = 0; i < scaledHeight; i++) {
       for (int j = 0; j < scaledWidth; j++) {
         double x = j * widthRation;
@@ -46,7 +47,10 @@ public class Scale implements RGBImageTransformation {
         Pixel interpolationLower = colorLerp(x, leftX, leftX + 1,
                 leftLowerCorner, rightLowerCorner);
         Pixel value = colorLerp(y, leftY, leftY + 1, interpolationUpper, interpolationLower);
-        scaledImage.setPixel(j, i, value);
+
+        int newJ = horizontalScale < 0 ? scaledWidth - j - 1 : j;
+        int newI = verticalScale < 0 ? scaledHeight - i - 1 : i;
+        scaledImage.setPixel(newJ, newI, value);
       }
     }
     return scaledImage;
