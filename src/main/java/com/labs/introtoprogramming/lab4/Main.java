@@ -8,6 +8,7 @@ import com.labs.introtoprogramming.lab4.image.io.bmp.BMPImageReader;
 import com.labs.introtoprogramming.lab4.image.io.bmp.BMPImageWriter;
 import com.labs.introtoprogramming.lab4.image.transform.RGBImageTransformation;
 import com.labs.introtoprogramming.lab4.image.transform.Scale;
+import com.labs.introtoprogramming.lab4.image.transform.SimpleBrightness;
 import com.labs.introtoprogramming.lab4.image.transform.SimpleScale;
 import java.io.File;
 import java.io.FileInputStream;
@@ -218,6 +219,8 @@ public class Main {
           horizontalScale = verticalScale = Double.parseDouble(param);
         }
         return Optional.of(new Scale(horizontalScale, verticalScale));
+      case "brightness":
+        return Optional.of(new SimpleBrightness(Double.parseDouble(param)));
       default:
         System.err.printf("Unknown action \"%s\"%n", action);
         return Optional.empty();
