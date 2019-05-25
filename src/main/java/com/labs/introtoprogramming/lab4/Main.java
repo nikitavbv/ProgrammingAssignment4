@@ -143,11 +143,12 @@ public class Main {
         parseFileNameParameter(arg);
       } else {
         String action = arg.replaceFirst("--", "");
-        if (i + 1 >= args.length || args[i+1].startsWith("-")) {
-          throw new ArgumentsException(String.format("No parameter specified for action \"%s\"", action));
+        if (i + 1 >= args.length || args[i+1].startsWith("--")) {
+          getTransformationByAction(action, null).ifPresent(transformations::add);
+        } else {
+          getTransformationByAction(action, args[i+1]).ifPresent(transformations::add);
+          i++;
         }
-        getTransformationByAction(action, args[i+1]).ifPresent(transformations::add);
-        i++;
       }
     }
   }
@@ -218,6 +219,10 @@ public class Main {
           horizontalScale = verticalScale = Double.parseDouble(param);
         }
         return Optional.of(new Scale(horizontalScale, verticalScale));
+      case "mirror-v":
+        return Optional.of(new Scale(-1, 1));
+      case "mirror-h":
+        return Optional.of(new Scale(1, -1));
       default:
         System.err.printf("Unknown action \"%s\"%n", action);
         return Optional.empty();
